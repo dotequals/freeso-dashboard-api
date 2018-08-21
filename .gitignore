@@ -1,0 +1,14 @@
+# Node .gitignore template
+# https://github.com/github/gitignore/blob/master/Node.gitignore
+
+# Dependency directories
+node_modules/
+
+# Files Containing Secrets
+/config.js
+
+# Runtime data
+/data/
+
+# Misc
+.DS_Store

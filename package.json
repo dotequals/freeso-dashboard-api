@@ -1,0 +1,24 @@
+{
+  "name": "freeso-dashboard-api",
+  "version": "2.0.0",
+  "description": "FreeSO Dashboard's API.",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@gitlab.com/dotequals/freeso-dashboard.git"
+  },
+  "author": "dotequals <strdotequals@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/dotequals/freeso-dashboard-api/issues"
+  },
+  "homepage": "https://github.com/dotequals/freeso-dashboard-api",
+  "dependencies": {
+    "express": "^4.16.3",
+    "isomorphic-fetch": "^2.2.1",
+    "ws": "^5.2.2"
+  }
+}

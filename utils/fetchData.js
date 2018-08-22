@@ -22,6 +22,7 @@
 const fs = require('fs');
 require('isomorphic-fetch');
 
+const deepCopy = require('./deepCopy');
 const handleConfig = require('./handleConfig');
 const { server } = handleConfig('../config');
 
@@ -39,7 +40,7 @@ const modifiedApiSkeleton = {
 
 const massageData = (data) => {
   const { activeLots, names, onlineCount, reservedLots } = data;
-  const niceData = { ...modifiedApiSkeleton };
+  const niceData = deepCopy(modifiedApiSkeleton);
 
   for (let index = 0; index < reservedLots.length; index += 1) {
     const lotKey = reservedLots[index];
@@ -79,11 +80,12 @@ const fetchData = async () => {
     data = await response.json();
   } catch (error) {
     // The only time this should fail is when the API isn't available and we fetch a 5xx page
-    data = { ...realAPISkeleton };
+    data = deepCopy(realAPISkeleton);
     data.error = 'The FreeSO API is unavailable.';
   }
 
-  const formattedData = await massageData(data);
+  // Because 
+  const formattedData = await massageData(deepCopy(data));
   await writeData(data, formattedData);
 };
 

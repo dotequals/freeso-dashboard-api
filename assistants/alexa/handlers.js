@@ -22,7 +22,8 @@ const LaunchRequestHandler = {
 
 const HelpIntentHandler = {
   canHandle(handlerInput) {
-    return isIntentWIthName('AMAZON.HelpIntent', handlerInput);
+    return handlerInput.requestEnvelope.request.type === 'IntentRequest'
+      && handlerInput.requestEnvelope.request.intent.name === 'AMAZON.HelpIntent';
   },
   handle(handlerInput) {
     return handlerInput.responseBuilder
@@ -35,7 +36,9 @@ const HelpIntentHandler = {
 
 const CancelAndStopIntentHandler = {
   canHandle(handlerInput) {
-    return isIntentWIthName('AMAZON.CancelIntent', handlerInput) || isIntentWIthName('AMAZON.StopIntent', handlerInput);
+    return handlerInput.requestEnvelope.request.type === 'IntentRequest'
+      && (handlerInput.requestEnvelope.request.intent.name === 'AMAZON.CancelIntent'
+      || handlerInput.requestEnvelope.request.intent.name === 'AMAZON.StopIntent');
   },
   handler(handlerInput) {
     const speechText = 'Goodbye!';
@@ -73,7 +76,8 @@ const ErrorHandler = {
 
 const OnlineSimsIntentHandler = {
   canHandle(handlerInput) {
-    return isIntentWIthName('OnlineSims', handlerInput);
+    return handlerInput.requestEnvelope.request.type === 'IntentRequest'
+      && handlerInput.requestEnvelope.request.intent.name === 'OnlineSims';
   },
   async handle(handlerInput) {
     const speechText = await countOnline();

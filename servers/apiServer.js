@@ -1,5 +1,6 @@
 const express = require('express');
 const path = require('path');
+const bodyParser = require('body-parser');
 const verifier = require('alexa-verifier-middleware');
 
 const handlers = require('../assistants/alexa/handlers');
@@ -33,6 +34,7 @@ const init = () => {
   const alexaRouter = express.Router();
   app.use('/api/alexa', alexaRouter);
   alexaRouter.use(verifier);
+  alexaRouter.use(bodyParser.json());
   
   app.post('/api/alexa', (req, res) => {
     const skill = handlers();

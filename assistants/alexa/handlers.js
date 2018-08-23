@@ -90,14 +90,14 @@ let skill;
 const handlers = () => {
   if (!skill) {
    skill = Alexa.SkillBuilders.custom()
-    .addRequestHandler(
+    .addRequestHandlers(
       LaunchRequestHandler,
       HelpIntentHandler,
       CancelAndStopIntentHandler,
       SessionEndedHandler,
       OnlineSimsIntentHandler
     )
-    .addErrorHandler(ErrorHandler)
+    .addErrorHandlers(ErrorHandler)
     .create();
   }
   return skill;

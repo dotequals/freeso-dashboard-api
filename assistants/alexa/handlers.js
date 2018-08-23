@@ -1,24 +1,35 @@
 const Alexa = require('ask-sdk');
 
-const { errorText, helpText, skillName } = require('./appText');
-const { isIntentWIthName } = require('./helpers');
+const { errorText, helpText, skillName, welcomeText } = require('./appText');
 
-const { countOnline } = require('../shared/fulfillments');
+const { countLots, countSims } = require('../shared/fulfillments');
 
 const LaunchRequestHandler = {
   canHandle(handlerInput) {
     return handlerInput.requestEnvelope.request.type === 'LaunchRequest';
   },
   handle(handlerInput) {
-    const speechText = 'Welcome to FreeSO Dashboard. You can ask me how many sims are online.';
-
     return handlerInput.responseBuilder
-      .speak(speechText)
-      .reprompt(speechText)
-      .withSimpleCard(skillName, speechText)
+      .speak(welcomeText)
+      .reprompt(welcomeText)
+      .withSimpleCard(skillName, welcomeText)
       .getResponse();
   },
 };
+
+const FallbackIntentHandler = {
+  canHandle(handlerInput) {
+    return handlerInput.requestEnvelope.request.type === 'IntentRequest'
+      && handlerInput.requestEnvelope.request.intent.name === 'AMAZON.FallbackIntent';
+  },
+  handle(handlerInput) {
+    return handlerInput.responseBuilder
+      .speak(welcomeText)
+      .reprompt(welcomeText)
+      .withSimpleCard(skillName, welcomeText)
+      .getResponse();
+  },
+}
 
 const HelpIntentHandler = {
   canHandle(handlerInput) {
@@ -80,7 +91,7 @@ const OnlineSimsIntentHandler = {
       && handlerInput.requestEnvelope.request.intent.name === 'OnlineSims';
   },
   async handle(handlerInput) {
-    const speechText = await countOnline();
+    const speechText = await countSims();
 
     return handlerInput.responseBuilder
       .speak(speechText)
@@ -89,13 +100,28 @@ const OnlineSimsIntentHandler = {
   },
 };
 
-let skill;
+const OnlineLotsIntentHandler = {
+  canHandle(handlerInput) {
+    return handlerInput.requestEnvelope.request.type === 'IntentRequest'
+      && handlerInput.requestEnvelope.request.intent.name === 'OnlineLots';
+  },
+  async handle(handlerInput) {
+    const speechText = await countLots();
 
+    return handlerInput.responseBuilder
+      .speak(speechText)
+      .withSimpleCard(skillName, speechText)
+      .getResponse();
+  },
+}
+
+let skill;
 const handlers = () => {
   if (!skill) {
    skill = Alexa.SkillBuilders.custom()
     .addRequestHandlers(
       LaunchRequestHandler,
+      FallbackIntentHandler,
       HelpIntentHandler,
       CancelAndStopIntentHandler,
       SessionEndedHandler,

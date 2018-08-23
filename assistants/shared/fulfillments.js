@@ -12,7 +12,7 @@ const fetchApi = async () => {
   }
 };
 
-const countOnline = async () => {
+const countSims = async () => {
   const data = await fetchApi();
 
   if (!data.error) {
@@ -23,7 +23,20 @@ const countOnline = async () => {
   return data.error;
 };
 
+const countLots = async () => {
+  const data = await fetchApi();
+
+  if (!data.error) {
+    const { activeLots } = data;
+    const lotCount = activeLots.length;
+    return `There are ${lotCount} lot${population !== 1 ? 's' : ''} online.`;
+  }
+
+  return data.error;
+};
+
 module.exports = {
+  countLots,
+  countSims,
   fetchApi,
-  countOnline,
 };

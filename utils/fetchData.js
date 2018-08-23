@@ -20,7 +20,7 @@
  */
 
 const fs = require('fs');
-require('isomorphic-fetch');
+const fetch = require('isomorphic-fetch');
 
 const deepCopy = require('./deepCopy');
 const handleConfig = require('./handleConfig');
@@ -66,10 +66,10 @@ const writeData = (api, modifiedApi) => {
     if (error) {
       fs.mkdirSync('./data/');
     }
-  });
 
-  fs.writeFileSync('./data/city.json', JSON.stringify(api));
-  fs.writeFileSync('./data/cityV2.json', JSON.stringify(modifiedApi));
+    fs.writeFileSync('./data/city.json', JSON.stringify(api));
+    fs.writeFileSync('./data/cityV2.json', JSON.stringify(modifiedApi));
+  });
 };
 
 const fetchData = async () => {

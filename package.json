@@ -17,6 +17,8 @@
   },
   "homepage": "https://github.com/dotequals/freeso-dashboard-api",
   "dependencies": {
+    "alexa-verifier-middleware": "^1.0.1",
+    "ask-sdk": "^2.0.7",
     "express": "^4.16.3",
     "isomorphic-fetch": "^2.2.1",
     "ws": "^5.2.2"

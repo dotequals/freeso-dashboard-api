@@ -125,7 +125,8 @@ const handlers = () => {
       HelpIntentHandler,
       CancelAndStopIntentHandler,
       SessionEndedHandler,
-      OnlineSimsIntentHandler
+      OnlineSimsIntentHandler,
+      OnlineLotsIntentHandler
     )
     .addErrorHandlers(ErrorHandler)
     .create();

@@ -1,6 +1,7 @@
 const express = require('express');
 const path = require('path');
 const bodyParser = require('body-parser');
+const Alexa = require('ask-sdk');
 const verifier = require('alexa-verifier-middleware');
 
 const handlers = require('../assistants/alexa/handlers');
@@ -42,7 +43,6 @@ const init = () => {
     skill.invoke(req.body)
       .then((responseBody) => res.json(responseBody))
       .catch((error) => res.status(500).send('An error occured.'));
-    
   });
   
   // Just send a 404 for any other endpoint

@@ -25,7 +25,7 @@ const init = () => {
   const inMemoryStorage = new builder.MemoryBotStorage();
   bot = new builder.UniversalBot(connector, (session) => {
     session.send(defaultText);
-  }).selectActiveDialogRoute('storage', inMemoryStorage);
+  }).set('storage', inMemoryStorage);
 
   const luisModelUrl = `https://${luisApiHostName}/luis/v2.0/apps/${luisAppId}?subscription-key=${luisApiKey}&verbose=true`;
   const recognizer = new builder.LuisRecognizer(luisModelUrl);

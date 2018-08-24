@@ -16,7 +16,8 @@ const countSims = async () => {
   const data = await fetchApi();
 
   if (!data.error) {
-    const population = data.onlineCount.reduce((accumulator, currentValue) => accumulator + currentValue);
+    const { onlineCount } = data;
+    const population = onlineCount.reduce((accumulator, currentValue) => accumulator + currentValue);
     return `There are ${population} sim${population !== 1 ? 's' : ''} online.`;
   }
 
@@ -29,7 +30,7 @@ const countLots = async () => {
   if (!data.error) {
     const { activeLots } = data;
     const lotCount = activeLots.length;
-    return `There are ${lotCount} lot${population !== 1 ? 's' : ''} online.`;
+    return `There are ${lotCount} lot${lotCount !== 1 ? 's' : ''} online.`;
   }
 
   return data.error;

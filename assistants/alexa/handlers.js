@@ -2,7 +2,7 @@ const Alexa = require('ask-sdk');
 
 const { errorText, helpText, skillName, welcomeText } = require('./appText');
 
-const { countLots, countSims } = require('../shared/fulfillments');
+const { countLots, countSims, getBusiestLots } = require('../shared/fulfillments');
 
 const LaunchRequestHandler = {
   canHandle(handlerInput) {
@@ -115,6 +115,21 @@ const OnlineLotsIntentHandler = {
   },
 }
 
+const BusiestLotsIntentHandler = {
+  canHandle(handlerInput) {
+    return handlerInput.requestEnvelope.request.type === 'IntentRequest'
+      && handlerInput.requestEnvelope.request.intent.name === 'BusiestLots';
+  },
+  async handle(handlerInput) {
+    const speechText = await getBusiestLots();
+
+    return handlerInput.responseBuilder
+      .speak(speechText)
+      .withSimpleCard(skillName, speechText)
+      .getResponse();
+  },
+}
+
 let skill;
 const handlers = () => {
   if (!skill) {
@@ -126,7 +141,8 @@ const handlers = () => {
       CancelAndStopIntentHandler,
       SessionEndedHandler,
       OnlineSimsIntentHandler,
-      OnlineLotsIntentHandler
+      OnlineLotsIntentHandler,
+      BusiestLotsIntentHandler
     )
     .addErrorHandlers(ErrorHandler)
     .create();

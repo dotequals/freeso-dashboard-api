@@ -1,5 +1,5 @@
 const config = {
-    server: 'http://api.freeso.org/',
+  server: 'http://api.freeso.org/',
 };
 
 module.exports = config;

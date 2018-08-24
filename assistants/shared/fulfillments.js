@@ -26,31 +26,32 @@ const fetchNewApi = async () => {
 
 const countSims = async () => {
   const data = await fetchApi();
-  
+
   if (!data.error) {
     const { onlineCount } = data;
-    const population = onlineCount.reduce((accumulator, currentValue) => accumulator + currentValue);
+    const population = onlineCount
+      .reduce((accumulator, currentValue) => accumulator + currentValue);
     return `There are ${population} sim${population !== 1 ? 's' : ''} online.`;
   }
-  
+
   return data.error;
 };
 
 const countLots = async () => {
   const data = await fetchApi();
-  
+
   if (!data.error) {
     const { activeLots } = data;
     const lotCount = activeLots.length;
     return `There are ${lotCount} lot${lotCount !== 1 ? 's' : ''} online.`;
   }
-  
+
   return data.error;
 };
 
 const getBusiestLots = async () => {
   const data = await fetchNewApi();
-  
+
   if (!data.error) {
     let currentCount = 0;
     let lotArr = [];
@@ -69,21 +70,19 @@ const getBusiestLots = async () => {
 
       if (lotArr.length === 1) {
         return `The busiest lot is ${lots[lotArr[0]]}. There are ${currentCount} sim${currentCount !== 1 ? 's' : ''} on this property.`;
-      } else {
-        let lotNames = '';
-        lotArr.forEach((lotId, index, arr) => {
-          if (index === arr.length - 1) {
-            lotNames += `and `;
-          }
-          lotNames += `${lots[lotId]}, `;
-        });
-        return `The busiest lots are ${lotNames}. They each have ${currentCount} sim${currentCount !== 1 ? 's' : ''} on their property.`;
       }
-    } else {
-      return `There are no lots online.`;
+      let lotNames = '';
+      lotArr.forEach((lotId, index, arr) => {
+        if (index === arr.length - 1) {
+          lotNames += 'and ';
+        }
+        lotNames += `${lots[lotId]}, `;
+      });
+      return `The busiest lots are ${lotNames}. They each have ${currentCount} sim${currentCount !== 1 ? 's' : ''} on their property.`;
     }
+    return 'There are no lots online.';
   }
-  
+
   return data.error;
 };
 

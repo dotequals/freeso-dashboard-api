@@ -1,6 +1,11 @@
 const Alexa = require('ask-sdk');
 
-const { errorText, helpText, skillName, welcomeText } = require('./appText');
+const {
+  errorText,
+  helpText,
+  skillName,
+  welcomeText,
+} = require('./appText');
 
 const { countLots, countSims, getBusiestLots } = require('../shared/fulfillments');
 
@@ -20,7 +25,7 @@ const LaunchRequestHandler = {
 const FallbackIntentHandler = {
   canHandle(handlerInput) {
     return handlerInput.requestEnvelope.request.type === 'IntentRequest'
-      && handlerInput.requestEnvelope.request.intent.name === 'AMAZON.FallbackIntent';
+    && handlerInput.requestEnvelope.request.intent.name === 'AMAZON.FallbackIntent';
   },
   handle(handlerInput) {
     return handlerInput.responseBuilder
@@ -29,12 +34,12 @@ const FallbackIntentHandler = {
       .withSimpleCard(skillName, welcomeText)
       .getResponse();
   },
-}
+};
 
 const HelpIntentHandler = {
   canHandle(handlerInput) {
     return handlerInput.requestEnvelope.request.type === 'IntentRequest'
-      && handlerInput.requestEnvelope.request.intent.name === 'AMAZON.HelpIntent';
+    && handlerInput.requestEnvelope.request.intent.name === 'AMAZON.HelpIntent';
   },
   handle(handlerInput) {
     return handlerInput.responseBuilder
@@ -48,8 +53,8 @@ const HelpIntentHandler = {
 const CancelAndStopIntentHandler = {
   canHandle(handlerInput) {
     return handlerInput.requestEnvelope.request.type === 'IntentRequest'
-      && (handlerInput.requestEnvelope.request.intent.name === 'AMAZON.CancelIntent'
-      || handlerInput.requestEnvelope.request.intent.name === 'AMAZON.StopIntent');
+    && (handlerInput.requestEnvelope.request.intent.name === 'AMAZON.CancelIntent'
+    || handlerInput.requestEnvelope.request.intent.name === 'AMAZON.StopIntent');
   },
   handler(handlerInput) {
     const speechText = 'Goodbye!';
@@ -88,7 +93,7 @@ const ErrorHandler = {
 const OnlineSimsIntentHandler = {
   canHandle(handlerInput) {
     return handlerInput.requestEnvelope.request.type === 'IntentRequest'
-      && handlerInput.requestEnvelope.request.intent.name === 'OnlineSims';
+    && handlerInput.requestEnvelope.request.intent.name === 'OnlineSims';
   },
   async handle(handlerInput) {
     const speechText = await countSims();
@@ -103,7 +108,7 @@ const OnlineSimsIntentHandler = {
 const OnlineLotsIntentHandler = {
   canHandle(handlerInput) {
     return handlerInput.requestEnvelope.request.type === 'IntentRequest'
-      && handlerInput.requestEnvelope.request.intent.name === 'OnlineLots';
+    && handlerInput.requestEnvelope.request.intent.name === 'OnlineLots';
   },
   async handle(handlerInput) {
     const speechText = await countLots();
@@ -113,12 +118,12 @@ const OnlineLotsIntentHandler = {
       .withSimpleCard(skillName, speechText)
       .getResponse();
   },
-}
+};
 
 const BusiestLotsIntentHandler = {
   canHandle(handlerInput) {
     return handlerInput.requestEnvelope.request.type === 'IntentRequest'
-      && handlerInput.requestEnvelope.request.intent.name === 'BusiestLots';
+    && handlerInput.requestEnvelope.request.intent.name === 'BusiestLots';
   },
   async handle(handlerInput) {
     const speechText = await getBusiestLots();
@@ -128,26 +133,26 @@ const BusiestLotsIntentHandler = {
       .withSimpleCard(skillName, speechText)
       .getResponse();
   },
-}
+};
 
 let skill;
 const handlers = () => {
   if (!skill) {
-   skill = Alexa.SkillBuilders.custom()
-    .addRequestHandlers(
-      LaunchRequestHandler,
-      FallbackIntentHandler,
-      HelpIntentHandler,
-      CancelAndStopIntentHandler,
-      SessionEndedHandler,
-      OnlineSimsIntentHandler,
-      OnlineLotsIntentHandler,
-      BusiestLotsIntentHandler
-    )
-    .addErrorHandlers(ErrorHandler)
-    .create();
+    skill = Alexa.SkillBuilders.custom()
+      .addRequestHandlers(
+        LaunchRequestHandler,
+        FallbackIntentHandler,
+        HelpIntentHandler,
+        CancelAndStopIntentHandler,
+        SessionEndedHandler,
+        OnlineSimsIntentHandler,
+        OnlineLotsIntentHandler,
+        BusiestLotsIntentHandler,
+      )
+      .addErrorHandlers(ErrorHandler)
+      .create();
   }
   return skill;
-}
+};
 
 module.exports = handlers;

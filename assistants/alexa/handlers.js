@@ -1,11 +1,12 @@
 const Alexa = require('ask-sdk');
 
 const {
+  defaultText,
   errorText,
   helpText,
   skillName,
   welcomeText,
-} = require('./appText');
+} = require('../shared/appText');
 
 const { countLots, countSims, getBusiestLots } = require('../shared/fulfillments');
 
@@ -29,9 +30,9 @@ const FallbackIntentHandler = {
   },
   handle(handlerInput) {
     return handlerInput.responseBuilder
-      .speak(welcomeText)
-      .reprompt(welcomeText)
-      .withSimpleCard(skillName, welcomeText)
+      .speak(defaultText)
+      .reprompt(defaultText)
+      .withSimpleCard(skillName, defaultText)
       .getResponse();
   },
 };

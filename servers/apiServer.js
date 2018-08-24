@@ -3,6 +3,7 @@ const path = require('path');
 const verifier = require('alexa-verifier-middleware');
 
 const handlers = require('../assistants/alexa/handlers');
+const { connector } = require('../assistants/cortana/singleton')();
 
 const init = () => {
   const app = express();
@@ -41,6 +42,8 @@ const init = () => {
       .then(responseBody => res.json(responseBody))
       .catch(() => res.status(500).send('An error occured.'));
   });
+
+  app.post('/api/cortana', connector.listen());
 
   // Just send a 404 for any other endpoint
   app.get('*', (req, res) => {

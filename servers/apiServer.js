@@ -1,10 +1,11 @@
 const express = require('express');
+const bodyParser = require('body-parser');
 const path = require('path');
 const verifier = require('alexa-verifier-middleware');
 
 const handlers = require('../assistants/alexa/handlers');
 const { connector } = require('../assistants/cortana/singleton')();
-const gAssistant = require('../assistants/google/singleton');
+const gSingleton = require('../assistants/google/singleton');
 
 const init = () => {
   const app = express();
@@ -46,6 +47,10 @@ const init = () => {
 
   app.post('/api/cortana', connector.listen());
 
+  const gAssistant = gSingleton();
+  const gRouter = express.Router();
+  gRouter.use(bodyParser.json());
+  app.use('/api/google', gRouter);
   app.post('/api/google', gAssistant);
 
   // Just send a 404 for any other endpoint

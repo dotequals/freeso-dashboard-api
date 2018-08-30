@@ -73,10 +73,11 @@ const getBusiestLots = async () => {
       }
       let lotNames = '';
       lotArr.forEach((lotId, index, arr) => {
-        if (index === arr.length - 1) {
+        const isLastLot = index === arr.length - 1;
+        if (isLastLot) {
           lotNames += 'and ';
         }
-        lotNames += `${lots[lotId]}, `;
+        lotNames += `${lots[lotId]}${isLastLot ? '' : ', '}`;
       });
       return `The busiest lots are ${lotNames}. They each have ${currentCount} sim${currentCount !== 1 ? 's' : ''} on their property.`;
     }

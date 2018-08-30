@@ -4,6 +4,7 @@ const verifier = require('alexa-verifier-middleware');
 
 const handlers = require('../assistants/alexa/handlers');
 const { connector } = require('../assistants/cortana/singleton')();
+const gAssistant = require('../assistants/google/singleton');
 
 const init = () => {
   const app = express();
@@ -44,6 +45,8 @@ const init = () => {
   });
 
   app.post('/api/cortana', connector.listen());
+
+  app.post('/api/google', gAssistant);
 
   // Just send a 404 for any other endpoint
   app.get('*', (req, res) => {

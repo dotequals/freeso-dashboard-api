@@ -15,6 +15,9 @@ const {
 let bot;
 let connector;
 
+process.env.MICROSOFT_APP_ID = msAppId;
+process.env.MICROSOFT_APP_PASSWORD = msAppPassword;
+
 const init = () => {
   connector = new builder.ChatConnector({
     appId: msAppId,
@@ -31,7 +34,15 @@ const init = () => {
   const recognizer = new builder.LuisRecognizer(luisModelUrl);
   bot.recognizer(recognizer);
 
-  registerHandlers(bot);
+  // registerHandlers(bot);
+  bot.dialog('MICROSOFT.HelpIntent', (session) => {
+    console.log('That\'s a match');
+    session.send('helpText');
+    session.endDialog();
+  })
+    .triggerAction({
+      matches: 'MICROSOFT.HelpIntent',
+    });
 
   return {
     connector,
